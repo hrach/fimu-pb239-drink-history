@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Drink History</string>
+    <string name="new_visit">New visit</string>
+    <string name="new_drink">New drink</string>
+    <string name="pub_name">Pub name</string>
+    <string name="new_pub_save">Create new pub</string>
+
+</resources>
