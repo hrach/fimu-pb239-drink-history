@@ -5,11 +5,13 @@
     android:orientation="vertical" >
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/newVisitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/new_visit" />
+        android:text="@string/new_visit" 
+        android:onClick="newVisitButtonClick"
+        />
 
     <ListView
         android:id="@+id/listView1"
