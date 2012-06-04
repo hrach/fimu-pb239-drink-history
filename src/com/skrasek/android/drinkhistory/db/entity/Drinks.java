@@ -38,6 +38,22 @@ public class Drinks implements Serializable
 @DatabaseField(columnName="createdTime")
 	protected Date createdTime;
 
+/** 
+ * This attribute maps to the column createdTime in the DRINKS table.
+ */
+@DatabaseField(columnName="visitId")
+protected int visitId;
+
+
+
+	public int getVisitId() {
+	return visitId;
+}
+
+public void setVisitId(int visitId) {
+	this.visitId = visitId;
+}
+
 	/**
 	 * Method 'Drinks'
 	 * 

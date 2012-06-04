@@ -13,10 +13,16 @@
         android:onClick="newVisitButtonClick"
         />
 
-    <ListView
-        android:id="@+id/listView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    </ListView>
+    <ScrollView
+        android:id="@+id/visitsTableScroll"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        >
+	    <TableLayout
+	        android:id="@+id/visitsTable"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+	    </TableLayout>
+    </ScrollView>
 
 </LinearLayout>

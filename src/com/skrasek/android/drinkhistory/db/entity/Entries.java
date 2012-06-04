@@ -16,17 +16,6 @@ public class Entries implements Serializable
 	protected long entryId;
 
 	/** 
-	 * This attribute maps to the column visitId in the ENTRIES table.
-	 */
-@DatabaseField(columnName="visitId")
-	protected int visitId;
-
-	/** 
-	 * This attribute represents whether the primitive attribute visitId is null.
-	 */
-	protected boolean visitIdNull = true;
-
-	/** 
 	 * This attribute maps to the column drinkId in the ENTRIES table.
 	 */
 @DatabaseField(columnName="drinkId")
@@ -69,47 +58,6 @@ public class Entries implements Serializable
 	public void setEntryId(long entryId)
 	{
 		this.entryId = entryId;
-	}
-
-	/**
-	 * Method 'getVisitId'
-	 * 
-	 * @return int
-	 */
-	public int getVisitId()
-	{
-		return visitId;
-	}
-
-	/**
-	 * Method 'setVisitId'
-	 * 
-	 * @param visitId
-	 */
-	public void setVisitId(int visitId)
-	{
-		this.visitId = visitId;
-		this.visitIdNull = false;
-	}
-
-	/**
-	 * Method 'setVisitIdNull'
-	 * 
-	 * @param value
-	 */
-	public void setVisitIdNull(boolean value)
-	{
-		this.visitIdNull = value;
-	}
-
-	/**
-	 * Method 'isVisitIdNull'
-	 * 
-	 * @return boolean
-	 */
-	public boolean isVisitIdNull()
-	{
-		return visitIdNull;
 	}
 
 	/**
@@ -198,14 +146,6 @@ public class Entries implements Serializable
 			return false;
 		}
 		
-		if (visitId != _cast.visitId) {
-			return false;
-		}
-		
-		if (visitIdNull != _cast.visitIdNull) {
-			return false;
-		}
-		
 		if (drinkId != _cast.drinkId) {
 			return false;
 		}
@@ -230,8 +170,6 @@ public class Entries implements Serializable
 	{
 		int _hashCode = 0;
 		_hashCode = 29 * _hashCode + (int) (entryId ^ (entryId >>> 32));
-		_hashCode = 29 * _hashCode + visitId;
-		_hashCode = 29 * _hashCode + (visitIdNull ? 1 : 0);
 		_hashCode = 29 * _hashCode + drinkId;
 		_hashCode = 29 * _hashCode + (drinkIdNull ? 1 : 0);
 		if (addedTime != null) {
@@ -251,7 +189,6 @@ public class Entries implements Serializable
 		StringBuffer ret = new StringBuffer();
 		ret.append( "com.mycompany.myapp.dto.Entries: " );
 		ret.append( "entryId=" + entryId );
-		ret.append( ", visitId=" + visitId );
 		ret.append( ", drinkId=" + drinkId );
 		ret.append( ", addedTime=" + addedTime );
 		return ret.toString();
