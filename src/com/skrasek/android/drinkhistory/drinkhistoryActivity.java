@@ -80,7 +80,7 @@ public class drinkhistoryActivity extends BaseActivity {
         		row.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 
-						Intent i = new Intent(drinkhistoryActivity.this, VisitActivity.class);
+						Intent i = new Intent(ac, VisitActivity.class);
 						i.putExtra("visitId", visit.getVisitId());
 						startActivityForResult(i, 12345);
 						
