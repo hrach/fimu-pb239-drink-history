@@ -95,7 +95,7 @@ public class GpsClass{
 	
 	public void UpdateGPS() {
 		locationManager = (LocationManager) ac.getSystemService(Context.LOCATION_SERVICE);
-		if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)&&!locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+		if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) &&!locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 			createGpsDisabledAlert();
 		}
 		LocationListener locationListener = new LocationListener() {
@@ -105,8 +105,12 @@ public class GpsClass{
 				
 	
 				for( Handler h: registeredReq){
+					try{
 					h.sendEmptyMessage(1);
-					
+					}catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
 				}
 				registeredReq.clear();
 				/*
@@ -124,7 +128,11 @@ public class GpsClass{
 
 				tv.setText(String.valueOf(GPS[1]));
 */
+	try{
 				locationManager.removeUpdates(Lis);
+	}catch (Exception e) {
+		// TODO: handle exception
+	}
 				Lis = null;
 				/*
 				Button b=(Button) ac.findViewById(R.id.EF1BGPS);

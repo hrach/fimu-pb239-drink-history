@@ -22,7 +22,7 @@ public abstract class BaseActivity extends Activity {
 	protected Dao<Entries, Integer> entriesDao = null;
 	protected Dao<Pubs, Integer> pubsDao = null;
 	protected Dao<Visits, Integer> visitsDao = null;
-	protected double[] GPS=null;
+	protected static double[] GPS=null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,23 +40,5 @@ public abstract class BaseActivity extends Activity {
     	visitsDao = DatabaseHelper.getHelper(ac.getApplicationContext()).getVisitsDao();
     }
 	
-	protected void initGPS() {
-		// TODO Auto-generated method stub
-		final GpsClass gps = GpsClass.getGpsClass();
-		 Handler h = new Handler() {
-					public void handleMessage(Message msg) {
-				if (msg.what==1){
-				GPS=gps.GetGPS();
-				serveGPS(GPS[0],GPS[1]);
-				}
-			}
-			
-		};
-		gps.addGPSReq(this, h);
-		
-	}
-
-
-	protected abstract void serveGPS(double d, double e) ;
 
 }

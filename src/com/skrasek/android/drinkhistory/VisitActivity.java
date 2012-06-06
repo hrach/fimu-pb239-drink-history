@@ -25,7 +25,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class VisitActivity extends BaseActivity {
+public class VisitActivity extends BaseGPSActivity {
 	
 	public final int SELECT_PUB=12123121;
 	
