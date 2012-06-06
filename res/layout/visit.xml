@@ -15,7 +15,7 @@
             android:layout_height="match_parent" >
 
             <Button
-		        android:id="@+id/new_drink_btn"
+		        android:id="@+id/newDrinkButton"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="@string/new_drink" />
