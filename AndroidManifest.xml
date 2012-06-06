@@ -5,18 +5,16 @@
     android:versionName="1.0" >
 
     <uses-sdk android:minSdkVersion="8" />
-    
- <uses-permission android:name="android.permission.INTERNET"/>
-<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />  
-   
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        
-         
-        >
-        <!-- android:theme="@style/DrinkHistoryTheme"-->
+        android:label="@string/app_name" >
+
+        <!-- android:theme="@style/DrinkHistoryTheme" -->
         <activity
             android:name=".drinkhistoryActivity"
             android:label="@string/app_name" >
@@ -26,13 +24,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".VisitActivity"></activity>
-         <activity android:name=".PubActivity"></activity>
-         <activity android:name=".NewPubActivity"></activity>
-          <uses-library android:name="com.google.android.maps" />
-    
-      
-       
+        <activity android:name=".VisitActivity" >
+        </activity>
+        <activity android:name=".PubActivity" >
+        </activity>
+        <activity android:name=".NewPubActivity" >
+        </activity>
+        <activity android:name=".AddDrinkActivity" >
+        </activity>
+
+        <uses-library android:name="com.google.android.maps" />
     </application>
-    
+
 </manifest>

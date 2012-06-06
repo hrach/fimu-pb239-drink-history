@@ -89,6 +89,7 @@ public class DialogListener implements View.OnLongClickListener {
 						   drinksDao.delete(drink);
 						   d.dismiss();
 						   dialog.dismiss();
+						   activity.initData();
 					   } catch (SQLException e) {
 						   Toast.makeText(activity, "Neco se posralo v DB!",Toast.LENGTH_LONG).show();
 					   }
@@ -138,7 +139,7 @@ public class DialogListener implements View.OnLongClickListener {
 				}
 
 				dialog.dismiss();
-
+				activity.initData();
 			}
 		});
 	}

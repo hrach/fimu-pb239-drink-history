@@ -62,9 +62,6 @@ public class VisitActivity extends BaseGPSActivity {
 				}
 			});
 
-			
-
-			
 			try {
 				initConnection();
 				initData();
