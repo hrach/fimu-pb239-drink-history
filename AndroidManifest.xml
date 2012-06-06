@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.skrasek.android.drinkhistory"
-    android:versionCode="9"
+    android:versionCode="10"
     android:versionName="1.0" >
 
     <uses-sdk android:minSdkVersion="8" />
@@ -23,6 +23,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".VisitActivity"></activity>
+         <activity android:name=".PubActivity"></activity>
+       
+        
     </application>
-
+ <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+   
 </manifest>

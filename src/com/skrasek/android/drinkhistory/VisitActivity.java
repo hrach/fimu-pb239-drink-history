@@ -3,6 +3,8 @@ package com.skrasek.android.drinkhistory;
 
 import java.util.List;
 
+import org.w3c.dom.Text;
+
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.skrasek.android.drinkhistory.db.DatabaseHelper;
@@ -24,9 +26,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class VisitActivity extends BaseActivity {
-
-	String VISIT_ID_PARAM = "visitId";
-
+	
+	public final int SELECT_PUB=12123121;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
@@ -86,5 +88,63 @@ public class VisitActivity extends BaseActivity {
 				Toast.makeText(this, "Neco se posralo!", Toast.LENGTH_LONG).show();
 			}
 	}
+	
+	
+	public void pubSelect(View v){
+		Intent i = new Intent(this, PubActivity.class);
+		//i.putExtra("visitId", visit.getVisitId());
+		startActivityForResult(i, SELECT_PUB);
+	}
+
+
+	@Override
+	protected void serveGPS(double d, double e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		//tady se obslouzi navrat z aktivity dle resultCode
+
+		Bundle extras=data.getExtras();
+		if (resultCode != Activity.RESULT_OK) {
+			return;
+		}
+
+		switch (requestCode) {
+			case SELECT_PUB:
+				if (extras!=null){
+					if (extras.containsKey("ID")){
+						setPub(Integer.valueOf(extras.get("ID").toString()));
+					}
+				}
+			break;
+
+			default:
+			break;
+		}
+		  
+		
+	}
+
+
+	private void setPub(Integer id) {
+		// TODO Auto-generated method stub
+	((TextView)findViewById(R.id.visitpubname)).setTag(id);
+	try {
+		initConnection();
+		
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	}
+	
 	
 }

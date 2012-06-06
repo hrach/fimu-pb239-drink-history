@@ -239,4 +239,12 @@ public class drinkhistoryActivity extends BaseActivity {
 		
 	}
 
+
+
+	@Override
+	protected void serveGPS(double d, double e) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

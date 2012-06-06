@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
- android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" 
-   >
-<LinearLayout 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pubLL"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     >
-    
-    
 
-</LinearLayout>
+
+     <TextView android:id="@+id/pubTableHead" android:text="Restaurace" android:textSize="20dp" android:layout_width="match_parent" android:layout_height="wrap_content" />
+<ScrollView 
+ android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   >
+     <TableLayout
+	        android:id="@+id/selectPubTable"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" 
+	        android:visibility="visible">
+	</TableLayout>
+    
 </ScrollView>
+</LinearLayout>
