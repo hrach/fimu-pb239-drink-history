@@ -94,6 +94,7 @@ public class VisitActivity extends BaseActivity {
 								
 								Entries entry = new Entries();
 								entry.setDrinkId((int) drink.getDrinkId());
+								entry.setAddedTime(new Date());
 
 								try {
 									ac.entriesDao.create(entry);
@@ -109,7 +110,7 @@ public class VisitActivity extends BaseActivity {
 		        		if (drink.getPrice() == 0) {
 		        			showPrice = false;
 		        		} else {
-		        			finalPrice += drink.getPrice();
+		        			finalPrice += drink.getPrice() * count;
 		        		}
 
 
