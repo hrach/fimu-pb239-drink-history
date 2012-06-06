@@ -19,13 +19,18 @@
 		        android:layout_height="wrap_content"
 		        android:text="@string/new_drink" />
 
-            <ListView
-                android:id="@+id/drink_list"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" >
-            </ListView>
-
+                <ScrollView
+			        android:id="@+id/drinksTableScroll"
+			        android:layout_height="fill_parent"
+			        android:layout_width="fill_parent"
+			        >
+				    <TableLayout
+				        android:id="@+id/drinksTable"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content" >
+				    </TableLayout>
+			    </ScrollView>
+			            
         </LinearLayout>
     </ScrollView>
 
