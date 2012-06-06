@@ -37,91 +37,105 @@ public class VisitActivity extends BaseActivity {
 	public final int ADD_DRINK_CODE = 11;
 
 	int visitId;
+	
+	private VisitActivity ac;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
-			
-			
 			setContentView(R.layout.visit);
+			
 			Bundle extras = getIntent().getExtras();
-
-			TableLayout drinkList = (TableLayout) findViewById(R.id.drinksTable);
-			LayoutInflater inflater = this.getLayoutInflater();
-
-			final VisitActivity ac = this;
-
+			if (extras.containsKey("visitId")) {
+				visitId = (int) extras.getLong("visitId");
+			} else {
+				// todo create new visit
+			}
+			
+			ac = this;
 			
 			Button btn = (Button) findViewById(R.id.newDrinkButton);
 			btn.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
-					
 					Intent i = new Intent(ac, AddDrinkActivity.class);
 					startActivityForResult(i, ADD_DRINK_CODE);
 				}
 			});
 
 			
+
 			
 			try {
 				initConnection();
+				initData();
+			} catch (Exception ex) {
 				
-				if (extras.containsKey("visitId")) {
-					visitId = (int) extras.getLong("visitId");
-					QueryBuilder<Drinks, Integer> builder = drinksDao.queryBuilder();
-					Where<Drinks, Integer> where = builder.where();
-					where.eq("visitId", visitId);
+			}
+	}
+	
+	public void initData()
+	{
+			TableLayout drinkList = (TableLayout) findViewById(R.id.drinksTable);
+			drinkList.removeAllViews();
+			LayoutInflater inflater = this.getLayoutInflater();
 
-					List<Drinks> drinks = builder.query();
-					TableRow row;
+			try {
+				QueryBuilder<Drinks, Integer> builder = drinksDao.queryBuilder();
+				Where<Drinks, Integer> where = builder.where();
+				where.eq("visitId", visitId);
 
-					Float finalPrice = new Float(0);
-					boolean showPrice = true;
+				List<Drinks> drinks = builder.query();
+				TableRow row;
 
-					for (final Drinks drink : drinks) {
-		        		row = (TableRow) inflater.inflate(R.layout.visitrow, drinkList, false);
+				Float finalPrice = new Float(0);
+				boolean showPrice = true;
 
-		        		((TextView) row.findViewById(R.id.drinkName)).setText(drink.getName());
+				for (final Drinks drink : drinks) {
+	        		row = (TableRow) inflater.inflate(R.layout.visitrow, drinkList, false);
 
-		        		List<Entries> entries = entriesDao.queryForEq("drinkId", drink.getDrinkId());
-		        		int count = entries.size();
+	        		((TextView) row.findViewById(R.id.drinkName)).setText(drink.getName());
 
-		        		((TextView) row.findViewById(R.id.drinkCount)).setText("" + count);
+	        		List<Entries> entries = entriesDao.queryForEq("drinkId", drink.getDrinkId());
+	        		int count = entries.size();
 
-		        		row.setOnLongClickListener(new DialogListener(this, drinksDao, entriesDao, drink));
-		        		row.setOnClickListener(new View.OnClickListener() {
-							public void onClick(View v) {
-								
-								Entries entry = new Entries();
-								entry.setDrinkId((int) drink.getDrinkId());
-								entry.setAddedTime(new Date());
+	        		((TextView) row.findViewById(R.id.drinkCount)).setText("" + count);
 
-								try {
-									ac.entriesDao.create(entry);
-								} catch (SQLException e) {
-									Toast.makeText(ac, "Nepodarilo se pridat napoj", Toast.LENGTH_LONG).show();
-								}
-								
+	        		row.setOnLongClickListener(new DialogListener(this, drinksDao, entriesDao, drink));
+	        		row.setOnClickListener(new View.OnClickListener() {
+						public void onClick(View v) {
+							
+							Entries entry = new Entries();
+							entry.setDrinkId((int) drink.getDrinkId());
+							entry.setAddedTime(new Date());
+
+							try {
+								ac.entriesDao.create(entry);
+								ac.initData();
+							} catch (SQLException e) {
+								Toast.makeText(ac, "Nepodarilo se pridat napoj", Toast.LENGTH_LONG).show();
 							}
-						});
+							
+						}
+					});
 
-		        		
-		        		// calculate final price
-		        		if (drink.getPrice() == 0) {
-		        			showPrice = false;
-		        		} else {
-		        			finalPrice += drink.getPrice() * count;
-		        		}
+	        		
+	        		// calculate final price
+	        		if (drink.getPrice() == 0) {
+	        			showPrice = false;
+	        		} else {
+	        			finalPrice += drink.getPrice() * count;
+	        		}
 
 
-		        		drinkList.addView(row);
+	        		drinkList.addView(row);
 
-		        	}
+	        	}
 
-					if (showPrice) {
-						TextView finalPriceView = (TextView) findViewById(R.id.finalprice);
-						finalPriceView.setText(finalPrice.toString());
-					}
+				TextView finalPriceView = (TextView) findViewById(R.id.finalprice);
+				if (showPrice) {
+					finalPriceView.setText(finalPrice.toString());
+				} else {
+					//finalPriceView.setText("");
 				}
 
 			} catch (Exception e) {
@@ -182,6 +196,8 @@ public class VisitActivity extends BaseActivity {
 						e.setDrinkId((int) d.getDrinkId());
 						e.setAddedTime(new Date());
 						entriesDao.create(e);
+						
+						initData();
 						
 					} catch (Exception ex) {
 						
