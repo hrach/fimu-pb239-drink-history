@@ -6,5 +6,12 @@
     <string name="new_drink">New drink</string>
     <string name="pub_name">Pub name</string>
     <string name="new_pub_save">Create new pub</string>
+    <string name="ok">OK</string>
+    <string name="drink_name">Drink name</string>
+    <string name="drink_price">Drink price</string>
+    <string name="delete_drink">Delete drink</string>
+    <string name="delete_drink_warning">Delete?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 </resources>

@@ -102,4 +102,10 @@ public class AddDrinkActivity extends BaseActivity {
 		setResult(RESULT_OK, data);
 		finish();
 	}
+
+	@Override
+	protected void serveGPS(double d, double e) {
+		// TODO Auto-generated method stub
+		
+	}
 }
