@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/ok" />
+        android:text="@string/delete_drink_button" />
 
     <Button
         android:id="@+id/noButton"

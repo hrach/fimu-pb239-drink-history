@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import android.app.Dialog;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,9 +30,13 @@ public class DialogListener implements View.OnLongClickListener {
 
 		final Dialog dialog = new Dialog(activity);
 		dialog.setContentView(R.layout.editdialog);
-		dialog.setTitle("");
+		dialog.setTitle(R.string.edit_drink_dialog_name);
 		dialog.setCancelable(true);
 
+		WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+	    lp.copyFrom(dialog.getWindow().getAttributes());
+	    lp.width = WindowManager.LayoutParams.FILL_PARENT;
+	    
 		final TextView nameText = (TextView) dialog.findViewById(R.id.drinkName);
 		final TextView priceText = (TextView) dialog.findViewById(R.id.drinkPrice);
 
@@ -46,6 +51,7 @@ public class DialogListener implements View.OnLongClickListener {
 		setOkButton(dialog);
 		setDeleteButton(dialog);
 		dialog.show();
+	    dialog.getWindow().setAttributes(lp);
 
 		return true;
 	}
