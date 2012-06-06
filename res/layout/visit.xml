@@ -3,37 +3,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-	<EditText android:id="@+id/visitpubname" android:text="Nová hospoda" android:focusable="false" android:onClick="pubSelect"  android:editable="false" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-    
-    <ScrollView
-        android:id="@+id/scrollView1"
+
+    <EditText
+        android:id="@+id/visitpubname"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:editable="false"
+        android:focusable="false"
+        android:onClick="pubSelect"
+        android:text="Nová hospoda" />
+
+    <Button
+        android:id="@+id/newDrinkButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/new_drink" />
+
+    <ScrollView
+        android:id="@+id/drinksTableScroll"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
-	
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
 
-            <Button
-		        android:id="@+id/newDrinkButton"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:text="@string/new_drink" />
-
-                <ScrollView
-			        android:id="@+id/drinksTableScroll"
-			        android:layout_height="fill_parent"
-			        android:layout_width="fill_parent"
-			        >
-				    <TableLayout
-				        android:id="@+id/drinksTable"
-				        android:layout_width="match_parent"
-				        android:layout_height="wrap_content" >
-				    </TableLayout>
-			    </ScrollView>
-			            
-        </LinearLayout>
+        <TableLayout
+            android:id="@+id/drinksTable"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" 
+            android:stretchColumns="*"
+            >
+        </TableLayout>
     </ScrollView>
 
+    <TextView
+        android:id="@+id/finalprice"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:text="" />
 
 </LinearLayout>

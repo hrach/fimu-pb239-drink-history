@@ -75,6 +75,9 @@ public class VisitActivity extends BaseActivity {
 					List<Drinks> drinks = builder.query();
 					TableRow row;
 
+					Float finalPrice = new Float(0);
+					boolean showPrice = true;
+
 					for (final Drinks drink : drinks) {
 		        		row = (TableRow) inflater.inflate(R.layout.visitrow, drinkList, false);
 
@@ -101,10 +104,23 @@ public class VisitActivity extends BaseActivity {
 							}
 						});
 
+		        		
+		        		// calculate final price
+		        		if (drink.getPrice() == 0) {
+		        			showPrice = false;
+		        		} else {
+		        			finalPrice += drink.getPrice();
+		        		}
+
+
 		        		drinkList.addView(row);
+
 		        	}
 
-					
+					if (showPrice) {
+						TextView finalPriceView = (TextView) findViewById(R.id.finalprice);
+						finalPriceView.setText(finalPrice.toString());
+					}
 				}
 
 			} catch (Exception e) {
