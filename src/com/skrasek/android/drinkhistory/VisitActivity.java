@@ -85,7 +85,7 @@ public class VisitActivity extends BaseActivity {
 
 		        		((TextView) row.findViewById(R.id.drinkCount)).setText("" + count);
 
-		        		row.setOnLongClickListener(new DialogListener(this, drinksDao, drink));
+		        		row.setOnLongClickListener(new DialogListener(this, drinksDao, entriesDao, drink));
 		        		row.setOnClickListener(new View.OnClickListener() {
 							public void onClick(View v) {
 								

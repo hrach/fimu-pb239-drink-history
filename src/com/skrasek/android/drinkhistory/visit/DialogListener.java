@@ -1,8 +1,12 @@
 package com.skrasek.android.drinkhistory.visit;
 
 import java.sql.SQLException;
+import java.util.List;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -13,17 +17,20 @@ import com.j256.ormlite.dao.Dao;
 import com.skrasek.android.drinkhistory.R;
 import com.skrasek.android.drinkhistory.VisitActivity;
 import com.skrasek.android.drinkhistory.db.entity.Drinks;
+import com.skrasek.android.drinkhistory.db.entity.Entries;
 
 public class DialogListener implements View.OnLongClickListener {
 
 	Drinks drink;
 	Dao<Drinks, Integer> drinksDao;
+	Dao<Entries, Integer> entriesDao;
 	VisitActivity activity;
 
-	public DialogListener(VisitActivity activity, Dao<Drinks, Integer> drinksDao, Drinks drink) {
+	public DialogListener(VisitActivity activity, Dao<Drinks, Integer> drinksDao, Dao<Entries, Integer> entriesDao, Drinks drink) {
 		this.activity = activity;
 		this.drink = drink;
 		this.drinksDao = drinksDao;
+		this.entriesDao = entriesDao;
 	}
 
 	public boolean onLongClick(View v) {
@@ -56,39 +63,39 @@ public class DialogListener implements View.OnLongClickListener {
 		return true;
 	}
 	
-	private void setDeleteButton(Dialog dialog)
+	private void setDeleteButton(final Dialog dialog)
 	{
 		Button buttonDelete = (Button) dialog.findViewById(R.id.deleteButton);
 		buttonDelete.setOnClickListener(new View.OnClickListener() {
+
 			public void onClick(View v) {
-				// delete drink
-				final Dialog deleteDialog = new Dialog(v.getContext());
-				deleteDialog.setContentView(R.layout.deletedialog);
-				deleteDialog.setTitle("");
 				
-				// set the Yes button
-				Button buttonYes = (Button) deleteDialog.findViewById(R.id.yesButton);
-				buttonYes.setOnClickListener(new View.OnClickListener() {
-					
-					public void onClick(View v) {
-						try {
-							drinksDao.delete(drink);
-						} catch (SQLException e) {
-							Toast.makeText(activity, "Neco se posralo v DB!",Toast.LENGTH_LONG).show();
-						}
-						deleteDialog.dismiss();
+				Builder alertDialog = new AlertDialog.Builder(activity);
+				alertDialog.setTitle("Delete...");
+				alertDialog.setMessage("Are you sure?");
+				alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface d, int which) {
+						d.dismiss();
 					}
 				});
-				
-				// set the No button
-				Button buttonNo = (Button) deleteDialog.findViewById(R.id.noButton);
-				buttonNo.setOnClickListener(new View.OnClickListener() {
-					
-					public void onClick(View v) {
-						deleteDialog.dismiss();
-						
-					}
-				});				
+				alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				   public void onClick(DialogInterface d, int which) {
+					   try {
+						   List<Entries> entries = entriesDao.queryForEq("drinkId", drink.getDrinkId());
+						   for (Entries e : entries) {
+							   entriesDao.delete(e);
+						   }
+
+						   drinksDao.delete(drink);
+						   d.dismiss();
+						   dialog.dismiss();
+					   } catch (SQLException e) {
+						   Toast.makeText(activity, "Neco se posralo v DB!",Toast.LENGTH_LONG).show();
+					   }
+				   }
+				});
+
+				alertDialog.create().show();
 			}
 		});
 	}
