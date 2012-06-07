@@ -2,25 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/pubLL"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
     android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="wrap_content" >
 
         <Button
             android:id="@+id/newPubButton"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="newPub"
             android:text="Create new pub" />
 
         <Button
             android:id="@+id/pubByMapButton"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="pubByMap"
             android:text="Select pub on Map" />
@@ -28,9 +28,8 @@
 
     <ListView
         android:id="@+id/selectPubTable"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible" >
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
     </ListView>
 
 </LinearLayout>

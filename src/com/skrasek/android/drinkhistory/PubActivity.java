@@ -104,7 +104,17 @@ public class PubActivity extends BaseGPSActivity {
 					return;
 				}
         	});
+        	/*pubsTable.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+				public boolean onItemLongClick(AdapterView<?> arg0, View arg1,int arg2, long arg3) {
+					//ListView list = (ListView) arg0;
+					//Pubs pub = (Pubs) list.getAdapter().getItem(arg2);
 
+					ac.openContextMenu(arg1);
+					
+					return true;
+				}
+			});*/
+        	this.registerForContextMenu(pubsTable);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -160,11 +170,16 @@ public class PubActivity extends BaseGPSActivity {
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
-		// TODO Auto-generated method stub
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
-		clickedItemId = v.getTag().toString();
+		
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+	    //info.position
+	    
+	    ListView view = (ListView) v;
+	    Pubs pub = (Pubs) view.getAdapter().getItem(info.position);
+	    
+		clickedItemId = String.valueOf(pub.getPubId());
 
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.pubitemcontextmenu, menu);

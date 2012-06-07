@@ -42,9 +42,11 @@ public class PubsAdapter extends BaseAdapter {
           	v = vi.inflate(R.layout.selectpubrow, null);
         }
 
-        ac.registerForContextMenu(v);
+        //ac.registerForContextMenu(v);
 
         Pubs item = data.get(position);
+        
+        v.setTag(item.getPubId());
         
 		TextView tv = (TextView) v.findViewById(R.id.pubNamee);
 		tv.setText(item.getName());
