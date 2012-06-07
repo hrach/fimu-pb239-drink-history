@@ -19,25 +19,46 @@
         android:layout_height="wrap_content"
         android:text="@string/new_drink" />
 
-    <ScrollView
-        android:id="@+id/drinksTableScroll"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-
-        <TableLayout
-            android:id="@+id/drinksTable"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" 
-            android:stretchColumns="*"
-            >
-        </TableLayout>
-    </ScrollView>
-
-    <TextView
-        android:id="@+id/finalprice"
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:focusable="false"
-        android:text="" />
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/priceFooter"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#444444"
+            android:orientation="horizontal"
+            android:paddingBottom="4dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/finalPrice"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/finalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:focusable="false"
+                android:text=""
+                android:textSize="20dp" />
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/drinksTable"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/priceFooter"
+            android:stretchColumns="*" />
+    </RelativeLayout>
 
 </LinearLayout>

@@ -16,5 +16,6 @@
     <string name="no">No</string>
     <string name="currency_text">,-Kč</string>
     <string name="edit_drink_dialog_name">Drink settings</string>
+    <string name="finalPrice">Total price:</string>
 
 </resources>

@@ -9,7 +9,10 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,21 +22,24 @@ import com.skrasek.android.drinkhistory.VisitActivity;
 import com.skrasek.android.drinkhistory.db.entity.Drinks;
 import com.skrasek.android.drinkhistory.db.entity.Entries;
 
-public class DialogListener implements View.OnLongClickListener {
+public class DialogListener implements AdapterView.OnItemLongClickListener {
 
-	Drinks drink;
-	Dao<Drinks, Integer> drinksDao;
-	Dao<Entries, Integer> entriesDao;
-	VisitActivity activity;
+	private Dao<Drinks, Integer> drinksDao;
+	private Dao<Entries, Integer> entriesDao;
+	private VisitActivity activity;
+	private Drinks drink;
 
-	public DialogListener(VisitActivity activity, Dao<Drinks, Integer> drinksDao, Dao<Entries, Integer> entriesDao, Drinks drink) {
+	public DialogListener(VisitActivity activity) {
 		this.activity = activity;
-		this.drink = drink;
-		this.drinksDao = drinksDao;
-		this.entriesDao = entriesDao;
+		this.drinksDao = activity.getDrinksDao();
+		this.entriesDao = activity.getEntriesDao();
 	}
 
-	public boolean onLongClick(View v) {
+
+	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
+	{
+		ListView list = (ListView) parent;
+		drink = (Drinks) list.getAdapter().getItem(position);
 
 		final Dialog dialog = new Dialog(activity);
 		dialog.setContentView(R.layout.editdialog);
@@ -52,6 +58,8 @@ public class DialogListener implements View.OnLongClickListener {
 		Float price = new Float(drink.getPrice());
 		if (price.floatValue() != 0) {
 			priceText.setText(price.toString());
+		} else {
+			priceText.setText("");
 		}
 
 
