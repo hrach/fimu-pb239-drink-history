@@ -36,24 +36,18 @@ import android.widget.Toast;
 
 public class VisitActivity extends BaseGPSActivity {
 	
-	public final int SELECT_PUB=12123121;
+	public final int SELECT_PUB = 12123121;
 	public final int ADD_DRINK_CODE = 11;
 
-	int visitId;
+	Visits visit;
 	
 	private VisitActivity ac;
 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.visit);
-			
-			Bundle extras = getIntent().getExtras();
-			if (extras.containsKey("visitId")) {
-				visitId = (int) extras.getLong("visitId");
-			} else {
-				// todo create new visit
-			}
 			
 			ac = this;
 			
@@ -67,18 +61,43 @@ public class VisitActivity extends BaseGPSActivity {
 
 			try {
 				initConnection();
-				initData();
 			} catch (Exception ex) {
 				
 			}
+
+
+			Bundle extras = getIntent().getExtras();
+			if (extras != null && extras.containsKey("visitId")) {
+				int visitId = (int) extras.getLong("visitId");
+				try {
+					visit = visitsDao.queryForId(visitId);
+				} catch (SQLException e) {
+					Toast.makeText(this, "Nepodarilo se najit navstevu", Toast.LENGTH_SHORT).show();
+				} 
+			} else {
+				this.initGPS();
+
+				visit = new Visits();
+				visit.setCreatedTime(new Date());
+				visit.setLat(0f);
+				visit.setLon(0f);
+
+				try {
+					visitsDao.create(visit);
+				} catch (Exception e) {
+					Toast.makeText(this, "Nepodarilo se vytvorit novou navstevu", Toast.LENGTH_SHORT).show();
+				}
+			}
+
+			initData();
 	}
-	
+
 	public void initData()
 	{
 			try {
 				QueryBuilder<Drinks, Integer> builder = drinksDao.queryBuilder();
 				Where<Drinks, Integer> where = builder.where();
-				where.eq("visitId", visitId);
+				where.eq("visitId", (int) visit.getVisitId());
 
 				List<Drinks> drinks = builder.query();
 
@@ -130,8 +149,14 @@ public class VisitActivity extends BaseGPSActivity {
 
 	@Override
 	protected void serveGPS(double d, double e) {
-		// TODO Auto-generated method stub
-		
+		visit.setLat(Float.valueOf(String.valueOf(d)));
+		visit.setLon(Float.valueOf(String.valueOf(e)));
+
+		try {
+			visitsDao.update(visit);
+		} catch (SQLException e1) {
+			Toast.makeText(this, "Nepodarilo se updantout souradnice", Toast.LENGTH_SHORT).show();
+		}
 	}
 	
 	
@@ -164,7 +189,7 @@ public class VisitActivity extends BaseGPSActivity {
 						
 						Drinks d = new Drinks();
 						d.setName(drink.getName());
-						d.setVisitId(this.visitId);
+						d.setVisitId((int) visit.getVisitId());
 						d.setCreatedTime(new Date());
 	
 						drinksDao.create(d);
@@ -192,20 +217,19 @@ public class VisitActivity extends BaseGPSActivity {
 
 
 	private void setPub(Integer id) {
-		
-	((TextView)findViewById(R.id.visitpubname)).setTag(id);
-	
-	try {
-		initConnection();
-		Pubs pub = pubsDao.queryForId(id);
-		((TextView)findViewById(R.id.visitpubname)).setText(pub.getName());
-		// TODO nastavit ve visitu pubid
-	} catch (Exception e) {
-	
-		e.printStackTrace();
-	}
-	
-	}
-	
+
+		((TextView) findViewById(R.id.visitpubname)).setTag(id);
+
+		try {
+			initConnection();
+			Pubs pub = pubsDao.queryForId(id);
+			((TextView) findViewById(R.id.visitpubname)).setText(pub.getName());
+			// TODO nastavit ve visitu pubid
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+	}	
 	
 }
