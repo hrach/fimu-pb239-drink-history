@@ -1,6 +1,7 @@
 package com.skrasek.android.drinkhistory.visit;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -52,9 +53,11 @@ public class DialogListener implements AdapterView.OnItemLongClickListener {
 	    
 		final TextView nameText = (TextView) dialog.findViewById(R.id.drinkName);
 		final TextView priceText = (TextView) dialog.findViewById(R.id.drinkPrice);
+		final TextView countText = (TextView) dialog.findViewById(R.id.drinkCount);
 
 
 		nameText.setText(drink.getName());
+		countText.setText("" + drink.getEntriesCount(activity.getEntriesDao()));
 		Float price = new Float(drink.getPrice());
 		if (price.floatValue() != 0) {
 			priceText.setText(price.toString());
@@ -67,7 +70,6 @@ public class DialogListener implements AdapterView.OnItemLongClickListener {
 		setDeleteButton(dialog);
 		dialog.show();
 	    dialog.getWindow().setAttributes(lp);
-
 		return true;
 	}
 	
@@ -113,6 +115,7 @@ public class DialogListener implements AdapterView.OnItemLongClickListener {
 	{
 		final TextView nameText = (TextView) dialog.findViewById(R.id.drinkName);
 		final TextView priceText = (TextView) dialog.findViewById(R.id.drinkPrice);
+		final TextView countText = (TextView) dialog.findViewById(R.id.drinkCount);
 
 		Button buttonOK = (Button) dialog.findViewById(R.id.okButton);
 		buttonOK.setOnClickListener(new View.OnClickListener() {
@@ -141,6 +144,24 @@ public class DialogListener implements AdapterView.OnItemLongClickListener {
 					drink.setName(newName);
 					drink.setPrice(newPrice);
 					drinksDao.update(drink);
+
+					int sum = Integer.parseInt(countText.getText().toString());
+					List<Entries> entries = drink.getEntries(activity.getEntriesDao());
+					if (sum == 0) {
+						Toast.makeText(activity, activity.getString(R.string.wrong_drink_count), Toast.LENGTH_SHORT).show();
+					} else if (entries.size() < sum) {
+						for (int i = 0; i < (sum - entries.size()); i += 1) {
+							Entries entry = new Entries();
+							entry.setDrinkId((int) drink.getDrinkId());
+							entry.setAddedTime(new Date());
+							activity.getEntriesDao().create(entry);
+						}
+					} else if (entries.size() > sum) {
+						while (entries.size() > sum) {
+							Entries entry = entries.remove(0);
+							activity.getEntriesDao().delete(entry);
+						}
+					}
 
 				} catch (SQLException e) {
 					Toast.makeText(activity, "Neco se posralo v DB!", Toast.LENGTH_LONG).show();

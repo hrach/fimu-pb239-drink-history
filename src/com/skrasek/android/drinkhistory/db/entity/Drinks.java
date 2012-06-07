@@ -166,7 +166,15 @@ public void setVisitId(int visitId) {
 		this.createdTime = createdTime;
 	}
 
-	
+	public List<Entries> getEntries(Dao<Entries, Integer> entriesDao)
+	{
+		try {
+			return entriesDao.queryForEq("drinkId", getDrinkId());
+		} catch (SQLException e) {
+			return null;
+		}
+	}
+
 	public int getEntriesCount(Dao<Entries, Integer> entriesDao)
 	{
 		List<Entries> entries;

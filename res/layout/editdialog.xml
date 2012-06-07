@@ -17,23 +17,43 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:weightSum="6"
         android:orientation="horizontal" >
 
         <EditText
             android:id="@+id/drinkPrice"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:hint="@string/drink_price"
+            android:layout_weight="2"
             android:inputType="numberDecimal" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="4dp"
+            android:layout_weight="1"
             android:text="@string/currency_text"
             android:textSize="22dp" />
+        
+        <EditText 
+            android:id="@+id/drinkCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="right"
+            android:inputType="number"
+            
+            />
+
+        <TextView 
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="×"
+            />
     </LinearLayout>
 
     <LinearLayout

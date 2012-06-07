@@ -52,7 +52,7 @@ class DrinksAdapter extends BaseAdapter {
         	price.setText("");
         }
 
-        count.setText(drink.getEntriesCount(ac.getEntriesDao()) + "");
+        count.setText(drink.getEntriesCount(ac.getEntriesDao()) + "×");
 
         return v;
 	}
