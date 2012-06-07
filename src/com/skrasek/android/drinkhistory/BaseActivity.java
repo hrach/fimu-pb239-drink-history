@@ -28,7 +28,9 @@ public abstract class BaseActivity extends Activity {
 		super.onCreate(savedInstanceState);
 	}
 	
-
+	public static double[] getGPS(){
+		return GPS;
+	}
 	protected void initConnection() throws Exception {
 		// TODO Auto-generated method stub
 

@@ -92,7 +92,17 @@ public class GpsClass{
 		ac.startActivity(gpsOptionsIntent);
 	}
 
-	
+	public void removeUpdates(){
+		try{		
+		registeredReq.clear();
+		
+					locationManager.removeUpdates(Lis);
+					Lis = null;	
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
 	public void UpdateGPS() {
 		locationManager = (LocationManager) ac.getSystemService(Context.LOCATION_SERVICE);
 		if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) &&!locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
@@ -110,35 +120,12 @@ public class GpsClass{
 					}catch (Exception e) {
 						// TODO: handle exception
 						e.printStackTrace();
+					registeredReq.remove(h);
 					}
 				}
-				registeredReq.clear();
-				/*
-				int idlat = R.id.TV1LAT;
-				int idlon = R.id.TV1LON;
-				
-				if (!((RadioButton) ac.findViewById(R.id.RB1)).isChecked()) {
-					idlat = R.id.TV2LAT;
-					idlon = R.id.TV2LON;
-				}
-				TextView tv = (TextView) ac.findViewById(idlat);
-
-				tv.setText(String.valueOf(GPS[0]));
-				tv = (TextView) ac.findViewById(idlon);
-
-				tv.setText(String.valueOf(GPS[1]));
-*/
-	try{
-				locationManager.removeUpdates(Lis);
-	}catch (Exception e) {
-		// TODO: handle exception
-	}
-				Lis = null;
-				/*
-				Button b=(Button) ac.findViewById(R.id.EF1BGPS);
-				b.setEnabled(true);				
-				b=(Button) ac.findViewById(R.id.EF2BGPS);
-				b.setEnabled(true);		*/		
+	
+		//		
+	
 			}
 
 		

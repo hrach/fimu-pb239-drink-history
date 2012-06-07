@@ -165,17 +165,17 @@ public class VisitActivity extends BaseGPSActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		//tady se obslouzi navrat z aktivity dle resultCode
 
-		Bundle extras=data.getExtras();
+
+		
 		if (resultCode != Activity.RESULT_OK) {
 			return;
 		}
 
 		switch (requestCode) {
 			case SELECT_PUB:
-				if (extras!=null){
-					if (extras.containsKey("ID")){
-						setPub(Integer.valueOf(extras.get("ID").toString()));
-					}
+				if (data.hasExtra("ID")){
+						setPub(Integer.valueOf(data.getExtras().get("ID").toString()));
+					
 
 				}
 			break;
@@ -215,13 +215,16 @@ public class VisitActivity extends BaseGPSActivity {
 
 
 	private void setPub(Integer id) {
-		// TODO Auto-generated method stub
+		
 	((TextView)findViewById(R.id.visitpubname)).setTag(id);
+	
 	try {
 		initConnection();
-		
+		Pubs pub = pubsDao.queryForId(id);
+		((TextView)findViewById(R.id.visitpubname)).setText(pub.getName());
+		// TODO nastavit ve visitu pubid
 	} catch (Exception e) {
-		// TODO Auto-generated catch block
+	
 		e.printStackTrace();
 	}
 	

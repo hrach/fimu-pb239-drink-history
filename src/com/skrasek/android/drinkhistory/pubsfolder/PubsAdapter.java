@@ -58,7 +58,7 @@ public void CreateTable(final TableLayout tl, List<Pubs> ir ) {
 	setCreated(true);
 	ac=(Activity)tl.getContext();
 		if (tl.getChildCount()!=0){
-		tl.removeViews(0, tl.getChildCount()-1);
+		tl.removeViews(0, tl.getChildCount());
 		}
 		System.gc();
 		pubs=ir;
@@ -71,7 +71,7 @@ public void CreateTable(final TableLayout tl, List<Pubs> ir ) {
 			
 			TableRow tr=createNewRow(tl,i);	
 			//tr.setVisibility(View.VISIBLE);
-			
+			ac.registerForContextMenu(tr);
 			tl.addView(tr);
 			
 		}
@@ -98,6 +98,7 @@ private TableRow createNewRow(final TableLayout tl, int pos) {
 	
 	tv=(TextView) row.findViewById(R.id.gps);
 	tv.setText("GPS:"+item.getLat()+";"+item.getLon());
+	row.setTag(item.getPubId());
 	row.setOnClickListener(new View.OnClickListener() {
 		
 		public void onClick(View v) {
