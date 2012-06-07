@@ -38,7 +38,7 @@ public class drinkhistoryActivity extends BaseActivity {
     /** Called when the activity is first created. */
 	BaseActivity ac;
 	private static String ROOT = "com.skrasek.android.drinkhistory";
-	
+	public final int SHOW_VISIT = 89987;
 	
 	
 	
@@ -54,17 +54,7 @@ public class drinkhistoryActivity extends BaseActivity {
 
         try {
         	initConnection();
- 
-        	Visits vis = new Visits();
-        	vis.setCreatedTime(new Date());
-        	vis.setLat(12.24f);
-        	vis.setLon(12.24f);
-        	visitsDao.create(vis);
-        	
-        	List<Visits> visits = visitsDao.queryForAll();
-
         	ListView visitsList = (ListView) findViewById(R.id.visitsTable);
-        	visitsList.setAdapter(new VisitsAdapter(visits, ac));
         	visitsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					ListView list = (ListView) parent;
@@ -77,15 +67,24 @@ public class drinkhistoryActivity extends BaseActivity {
 				}
 			});
 
+        	initData();
         	
         } catch (Exception e) {
-        	Toast.makeText(ac, "Jdi do prdele!", Toast.LENGTH_LONG);
+        	Toast.makeText(ac, "Neco nevyslo!", Toast.LENGTH_SHORT);
         }
-        
-        /*View visitButton = ac.findViewById(R.id.newVisitButton);
-        ((Button) visitButton).performClick();*/
     }
 
+    public void initData()
+    {
+    	ListView visitsList = (ListView) findViewById(R.id.visitsTable);
+    	List<Visits> visits;
+		try {
+			visits = visitsDao.queryBuilder().orderBy("visitId", false).query();
+			visitsList.setAdapter(new VisitsAdapter(visits, ac));
+		} catch (SQLException e) {
+			Toast.makeText(ac, "Nepodarilo se najit navstevy!", Toast.LENGTH_SHORT);
+		}
+    }
     
     
     //kdyz se v manifestu zvysi verze(android:versionCode) tak se dropne a znovu vytvori databaze...
@@ -113,92 +112,18 @@ public class drinkhistoryActivity extends BaseActivity {
 	}
 
 
-	public void newVisitButtonClick(View v){
-		showBasicTypes();
-	/*
-	 //tady budes nejspis chtit prejit k jiny aktivite, to se udela takhle:
-	 
-	 Intent s = new Intent(drinkhistoryActivity.this, druhaaktivita.class);
-		//predani parametru:
-		s.putExtra("parametr1", "cau");
-		s.putExtra("parametr2", "nazdar");
-		//prepnuti aktivity
-		startActivityForResult(s, nejakycislo);
-
-	 //ale bacha, kdyz spoustis jinou aktivitu nezapomen, ze musi byt zapsana v manifestu, jinak ti to padne :)
-	 
-	 
-	 */
+	public void newVisitButtonClick(View v)
+	{
+		Intent i = new Intent(this, VisitActivity.class);
+		startActivityForResult(i, SHOW_VISIT);
 	}
-	
+
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
-		//tady se obslouzi navrat z aktivity dle resultCode
-
-		/*
-		 
-		if (resultCode != Activity.RESULT_OK) {
-			return;
-		}
-
-				switch (requestCode) {
-		case nejakycislo:
-			//udelej co je treba
-			break;
-
-		default:
-			break;
-		}
-		  
-		 */
-		
+		initData();
 	}
-	
-	private void showBasicTypes(){
-		Runnable r = new Runnable() {
-			public void run() {
-				// TODO Auto-generated method stub
-				try {
-					initConnection();
-					QueryBuilder<DrinkTypes, Integer> qb = drinkTypesDao.queryBuilder();
-					
-					prepareSelect(qb, true);
-					final List<DrinkTypes> list = qb.query();
-					/*
-					 kdyz chcu vsechny z dany tabulky tak staci napr 
-					 drinkTypesDao.queryForAll();
-					 query builder toho umi vic, ale na jednoduchy dotazy neni treba...
-					 
-					 
-					 jinac pro zobrazovani kompletnich ciselniku budem vyuzivat asi tridu SelectRow, ale o tom az v pondeli. Zatim si muzes hrat s timhle...
-					 */
-					ac.runOnUiThread(new Runnable() {
-						//visualni prvky se muzou aktualizovat jen na UI threadu
-						
-						public void run() {
-							// TODO Auto-generated method stub
-							String text="";
-							for(DrinkTypes dt : list){
-								text=text+dt.getName()+", ";
-							}
-							Toast.makeText(ac, text, Toast.LENGTH_LONG).show();
-							
-						}
-					});
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		};
-        r.run();
-
-	}
-	
-  
 
 	
 	private void prepareSelect(QueryBuilder<DrinkTypes, Integer> qb,Boolean param) {
