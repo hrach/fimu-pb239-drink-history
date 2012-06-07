@@ -2,8 +2,11 @@ package com.skrasek.android.drinkhistory.db.entity;
 
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 
+import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName="Drinks")
@@ -163,6 +166,26 @@ public void setVisitId(int visitId) {
 		this.createdTime = createdTime;
 	}
 
+	public List<Entries> getEntries(Dao<Entries, Integer> entriesDao)
+	{
+		try {
+			return entriesDao.queryForEq("drinkId", getDrinkId());
+		} catch (SQLException e) {
+			return null;
+		}
+	}
+
+	public int getEntriesCount(Dao<Entries, Integer> entriesDao)
+	{
+		List<Entries> entries;
+		try {
+			entries = entriesDao.queryForEq("drinkId", getDrinkId());
+			return entries.size();
+		} catch (SQLException e) {
+			return 0;
+		}
+	}
+	
 	/**
 	 * Method 'equals'
 	 * 

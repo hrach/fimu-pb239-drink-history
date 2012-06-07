@@ -42,5 +42,18 @@ public abstract class BaseActivity extends Activity {
     	visitsDao = DatabaseHelper.getHelper(ac.getApplicationContext()).getVisitsDao();
     }
 	
+	public Dao<Entries, Integer> getEntriesDao()
+	{
+		return this.entriesDao;
+	}
+	
+	public Dao<Drinks, Integer> getDrinksDao()
+	{
+		return this.drinksDao;
+	}
 
+	public Dao<Pubs, Integer> getPubsDao()
+	{
+		return this.pubsDao;
+	}
 }
