@@ -16,7 +16,8 @@ public abstract class BaseGPSActivity extends BaseActivity{
 				if (msg.what==1){
 				GPS=gps.GetGPS();
 				try{
-				serveGPS(GPS[0],GPS[1]);
+					serveGPS(GPS[0],GPS[1]);
+					gps.removeUpdates();
 				}catch (Exception e) {
 					// TODO: handle exception
 				}
@@ -36,7 +37,7 @@ public abstract class BaseGPSActivity extends BaseActivity{
 				if (msg.what==1){
 				double[] g = gps.GetGPS();
 				try{
-				serveGPS(g[0],g[1]);
+					serveGPS(g[0],g[1]);
 				}catch (Exception e) {
 					// TODO: handle exception
 				}
