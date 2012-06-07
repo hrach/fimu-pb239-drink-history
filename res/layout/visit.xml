@@ -4,17 +4,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/visitPubName"
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:onClick="pubSelect" />
+        android:orientation="horizontal" >
 
-    <Button
-        android:id="@+id/newDrinkButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/new_drink" />
+        <Button
+            android:id="@+id/visitPubName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="pubSelect" />
+
+        <Button
+            android:id="@+id/newDrinkButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/new_drink" />
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="fill_parent"
