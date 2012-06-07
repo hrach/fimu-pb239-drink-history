@@ -38,7 +38,7 @@ public class PubsAdapter extends BaseAdapter {
 		return 0;
 	}
 
-	public Object getItem(int arg0) {
+	public Pubs getItem(int arg0) {
 		// TODO Auto-generated method stub
 		return pubs.get(arg0);
 	}

@@ -24,14 +24,16 @@ import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Button;
 import android.widget.TableLayout;
+import android.widget.Toast;
 
 public class PubActivity extends BaseGPSActivity {
 
 	public final int NEW_PUB = 124354;
 	public final int MODIFY_PUB = 124355;
+	public final int SELECT_ON_MAP=123543;
 	private PubActivity ac;
 	private String clickedItemId;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -50,12 +52,7 @@ public class PubActivity extends BaseGPSActivity {
 		// TODO Auto-generated method stub
 		try {
 			initConnection();
-			/*
-			 * Pubs pub = new Pubs(); pub.setLat(13.1235244f);
-			 * pub.setLon(14.1235244f); pub.setName("Putyka");
-			 * pubsDao.create(pub);
-			 */
-
+			
 			List<Pubs> pubs;// = pubsDao.queryForAll();
 
 			if (GPS == null) {
@@ -83,6 +80,13 @@ public class PubActivity extends BaseGPSActivity {
 				int i = 0;
 
 			}
+			if (pubs.size()>0){
+				findViewById(R.id.pubByMapButton).setEnabled(true);
+			} else {
+				findViewById(R.id.pubByMapButton).setEnabled(false);
+			}
+				
+				
 			PubsAdapter.get().CreateTable(
 					(TableLayout) findViewById(R.id.selectPubTable), pubs);
 
@@ -182,10 +186,26 @@ public class PubActivity extends BaseGPSActivity {
 		case MODIFY_PUB:
 			initPubs();
 			break;
-
+		case SELECT_ON_MAP:
+			Intent resultIntent = new Intent();
+        	resultIntent.putExtra("ID", String.valueOf(data.getExtras().get("ID")));
+        	ac.setResult(Activity.RESULT_OK, resultIntent);
+        	ac.finish();
+			break;
 		default:
 			break;
 		}
 	}
 
+	public void pubByMap(View v){
+		Intent i = new Intent(this,PubFromMapActivity.class);
+		
+		Pubs pub = PubsAdapter.get().getItem(0);
+		i.putExtra("lat", pub.getLat() );
+		i.putExtra("lon", pub.getLon() );
+		 
+		startActivityForResult(i, SELECT_ON_MAP);
+		
+	}
+	
 }
