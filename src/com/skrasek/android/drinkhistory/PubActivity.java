@@ -9,6 +9,7 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.skrasek.android.drinkhistory.db.LocalDBUtils;
 import com.skrasek.android.drinkhistory.db.SelectRow;
 import com.skrasek.android.drinkhistory.db.entity.Pubs;
+import com.skrasek.android.drinkhistory.db.entity.Visits;
 import com.skrasek.android.drinkhistory.pubsfolder.PubsAdapter;
 import com.skrasek.android.drinkhistory.utils.GpsClass;
 
@@ -22,7 +23,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
@@ -86,9 +89,22 @@ public class PubActivity extends BaseGPSActivity {
 				findViewById(R.id.pubByMapButton).setEnabled(false);
 			}
 				
-				
-			PubsAdapter.get().CreateTable(
-					(TableLayout) findViewById(R.id.selectPubTable), pubs);
+			
+			ListView pubsTable = (ListView) findViewById(R.id.selectPubTable);
+			pubsTable.setAdapter(new PubsAdapter(pubs, this));
+        	pubsTable.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					ListView list = (ListView) parent;
+					Pubs pub = (Pubs) list.getAdapter().getItem(position);
+
+					Intent resultIntent = new Intent();
+					resultIntent.putExtra("ID", (int) pub.getPubId());
+					ac.setResult(Activity.RESULT_OK, resultIntent);
+					ac.finish();
+					return;
+				}
+        	});
+
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -200,7 +216,8 @@ public class PubActivity extends BaseGPSActivity {
 	public void pubByMap(View v){
 		Intent i = new Intent(this,PubFromMapActivity.class);
 		
-		Pubs pub = PubsAdapter.get().getItem(0);
+		ListView view = (ListView) findViewById(R.id.selectPubTable);
+		Pubs pub = (Pubs) view.getAdapter().getItem(0); 
 		i.putExtra("lat", pub.getLat() );
 		i.putExtra("lon", pub.getLon() );
 		 
