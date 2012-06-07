@@ -11,6 +11,7 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.Region;
+import android.graphics.Path.Direction;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
@@ -68,7 +69,7 @@ public class DrawableMapOverlay extends Overlay {
 	        screenPoint.y - markerImage.getHeight() / 2, null);
 	    
 	    path=new Path();
-		  
+		  path.addCircle(screenPoint.x, screenPoint.y, 40, Direction.CCW);
 	    return true;
 	  }
 
@@ -118,12 +119,18 @@ public class DrawableMapOverlay extends Overlay {
 		  
 	        path.computeBounds(rectF, true);
 	        Region region = new Region();
+	        
 	        region.setPath(path, new Region((int) rectF.left, (int) rectF.top, (int) rectF.right, (int) rectF.bottom));
 
 	        Point point = new Point();
+	        
 	        mapView.getProjection().toPixels(geoPoint, point);
-
-	        if (region.contains(point.x, point.y)) {
+	        
+	        Point point1 = new Point();
+	        mapView.getProjection().toPixels(p, point1);
+	        
+	        
+	        if (region.contains(point1.x, point1.y)) {
 	            selectPoint(mapView);
 	            return true;
 	        }
