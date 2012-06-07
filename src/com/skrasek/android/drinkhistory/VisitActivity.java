@@ -113,7 +113,7 @@ public class VisitActivity extends BaseGPSActivity {
 
 
 				TextView finalPriceView = (TextView) findViewById(R.id.finalPrice);
-				finalPriceView.setText(finalPrice.toString() + ",-");
+				finalPriceView.setText(finalPrice.toString() + getString(R.string.currency_text));
 
 			} catch (Exception e) {
 				Toast.makeText(this, "Neco se posralo!", Toast.LENGTH_LONG).show();

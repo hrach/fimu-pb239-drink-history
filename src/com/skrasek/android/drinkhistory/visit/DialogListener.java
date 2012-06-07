@@ -79,14 +79,14 @@ public class DialogListener implements AdapterView.OnItemLongClickListener {
 			public void onClick(View v) {
 				
 				Builder alertDialog = new AlertDialog.Builder(activity);
-				alertDialog.setTitle("Delete...");
-				alertDialog.setMessage("Are you sure?");
-				alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+				alertDialog.setTitle(activity.getString(R.string.delete) + " " + drink.getName());
+				alertDialog.setMessage(activity.getString(R.string.are_you_sure));
+				alertDialog.setNegativeButton(activity.getString(R.string.cancel), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface d, int which) {
 						d.dismiss();
 					}
 				});
-				alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				alertDialog.setPositiveButton(activity.getString(R.string.deleteBtn), new DialogInterface.OnClickListener() {
 				   public void onClick(DialogInterface d, int which) {
 					   try {
 						   List<Entries> entries = entriesDao.queryForEq("drinkId", drink.getDrinkId());
