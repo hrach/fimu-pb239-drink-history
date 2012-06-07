@@ -2,8 +2,11 @@ package com.skrasek.android.drinkhistory.db.entity;
 
 
 import java.io.Serializable;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName="Visits")
@@ -223,6 +226,24 @@ public class Visits implements Serializable
 	public boolean isLonNull()
 	{
 		return lonNull;
+	}
+
+	public String getShowName(Dao<Pubs, Integer> pubsDao)
+	{
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM. - HH:mm");
+		String name = "";
+
+		name += sdf.format(this.getCreatedTime());
+		if (this.getPubId() != 0) {
+			Pubs pub;
+			try {
+				pub = pubsDao.queryForId(this.getPubId());
+				name += " - " + pub.getName();
+			} catch (SQLException e) {
+			}
+		}
+
+		return name;
 	}
 
 	/**

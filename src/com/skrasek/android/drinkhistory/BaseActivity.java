@@ -50,4 +50,8 @@ public abstract class BaseActivity extends Activity {
 		return this.drinksDao;
 	}
 
+	public Dao<Pubs, Integer> getPubsDao()
+	{
+		return this.pubsDao;
+	}
 }

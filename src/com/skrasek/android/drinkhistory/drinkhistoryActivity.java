@@ -26,6 +26,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TableLayout;
@@ -35,7 +36,7 @@ import android.widget.Toast;
 
 public class drinkhistoryActivity extends BaseActivity {
     /** Called when the activity is first created. */
-	Activity ac;
+	BaseActivity ac;
 	private static String ROOT = "com.skrasek.android.drinkhistory";
 	
 	
@@ -47,11 +48,8 @@ public class drinkhistoryActivity extends BaseActivity {
         setContentView(R.layout.main);
         ac=this;
         UpgradeSettings();
-        //jen pro nazornost jak se s tim zachazi :)
 
 
-        TableLayout visitsList = (TableLayout) findViewById(R.id.visitsTable);
-        LayoutInflater inflater = ac.getLayoutInflater();
         
 
         try {
@@ -64,31 +62,22 @@ public class drinkhistoryActivity extends BaseActivity {
         	visitsDao.create(vis);
         	
         	List<Visits> visits = visitsDao.queryForAll();
-        	TableRow row = null;
-        	SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 
-        	for (final Visits visit : visits) {
-        		row = (TableRow) inflater.inflate(R.layout.mainrow, visitsList, false);
-        		String name = "";
-        		name += sdf.format(visit.getCreatedTime());
-        		if (visit.getPubId() != 0) {
-        			Pubs pub = pubsDao.queryForId(visit.getPubId());
-        			name += " - " + pub.getName();
-        		}
+        	ListView visitsList = (ListView) findViewById(R.id.visitsTable);
+        	visitsList.setAdapter(new VisitsAdapter(visits, ac));
+        	visitsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					ListView list = (ListView) parent;
+					Visits visit = (Visits) list.getAdapter().getItem(position);
 
-        		((TextView) row.findViewById(R.id.visitname)).setText(name);
-        		row.setOnClickListener(new View.OnClickListener() {
-					public void onClick(View v) {
+					Intent i = new Intent(ac, VisitActivity.class);
+					i.putExtra("visitId", visit.getVisitId());
+					startActivityForResult(i, 12345);
 
-						Intent i = new Intent(ac, VisitActivity.class);
-						i.putExtra("visitId", visit.getVisitId());
-						startActivityForResult(i, 12345);
-						
-					}
-				});
-        		visitsList.addView(row);
-        	}
+				}
+			});
 
+        	
         } catch (Exception e) {
         	Toast.makeText(ac, "Jdi do prdele!", Toast.LENGTH_LONG);
         }

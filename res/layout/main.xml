@@ -6,23 +6,15 @@
 
     <Button
         android:id="@+id/newVisitButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/new_visit" 
-        android:onClick="newVisitButtonClick"
-        />
-
-    <ScrollView
-        android:id="@+id/visitsTableScroll"
-        android:layout_height="fill_parent"
         android:layout_width="fill_parent"
-        >
-	    <TableLayout
-	        android:id="@+id/visitsTable"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content" >
-	    </TableLayout>
-    </ScrollView>
+        android:layout_height="wrap_content"
+        android:onClick="newVisitButtonClick"
+        android:text="@string/new_visit" />
+
+    <ListView
+        android:id="@+id/visitsTable"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+    </ListView>
 
 </LinearLayout>
