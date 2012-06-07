@@ -133,6 +133,20 @@ public class VisitActivity extends BaseGPSActivity {
 
 				TextView finalPriceView = (TextView) findViewById(R.id.finalPrice);
 				finalPriceView.setText(finalPrice.toString() + getString(R.string.currency_text));
+				
+				
+				Button pubBtn = (Button) findViewById(R.id.visitPubName);
+				if (ac.visit.getPubId() != 0) {
+					Pubs pub = ac.pubsDao.queryForId(ac.visit.getPubId());
+					if (pub != null) {
+						pubBtn.setText(pub.getName()); 
+					} else {
+						pubBtn.setText(ac.getString(R.string.empty_pub_name));
+					}
+				} else {
+					pubBtn.setText(ac.getString(R.string.empty_pub_name));
+				}
+				
 
 			} catch (Exception e) {
 				Toast.makeText(this, "Neco se posralo!", Toast.LENGTH_LONG).show();
@@ -176,10 +190,9 @@ public class VisitActivity extends BaseGPSActivity {
 		switch (requestCode) {
 			case SELECT_PUB:
 				if (data.hasExtra("ID")){
-						setPub(Integer.valueOf(data.getExtras().get("ID").toString()));
-					
-
+					setPub(data.getExtras().getInt("ID"));
 				}
+
 			break;
 			case ADD_DRINK_CODE:
 				if (data.hasExtra("drinkTypeId")) {
@@ -216,20 +229,19 @@ public class VisitActivity extends BaseGPSActivity {
 	}
 
 
-	private void setPub(Integer id) {
-
-		((TextView) findViewById(R.id.visitpubname)).setTag(id);
-
+	private void setPub(Integer id)
+	{
 		try {
 			initConnection();
 			Pubs pub = pubsDao.queryForId(id);
-			((TextView) findViewById(R.id.visitpubname)).setText(pub.getName());
-			// TODO nastavit ve visitu pubid
-		} catch (Exception e) {
+			((Button) findViewById(R.id.visitPubName)).setText(pub.getName());
 
+			visit.setPubId(id);
+			visitsDao.update(visit);
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}	
 	
 }

@@ -4,14 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/visitpubname"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/visitPubName"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:editable="false"
-        android:focusable="false"
-        android:onClick="pubSelect"
-        android:text="Nová hospoda" />
+        android:onClick="pubSelect" />
 
     <Button
         android:id="@+id/newDrinkButton"
